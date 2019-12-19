@@ -127,10 +127,18 @@ stage('Deliver for development') {
 > Para obter mais explicações sobre o _stage input message_ Leitur Recomendada = Add a final deliver stage to your Pipeline - https://jenkins.io/doc/tutorials/build-a-node-js-and-react-app-with-npm/#add-a-final-deliver-stage-to-your-pipeline
 
 - Salve as edições feita no Jenkinsfile e comite.
-
 - Volte novamente a interface do Jenkins Blue Ocean.
-
 - Clique em _Branches_
-
 - Cliquei no icone de execução (play) na branch _master_e clique no link OPEN que aparece no lado inferior esquerdo na página.
 
+### Coloque seu Jenkinsfile atualizado nos outros ramos do repositório
+Agora que você possui um Jenkinsfile completo para criar seu aplicativo no Jenkins, pode extrair esse arquivo da ramifbranch master do repositório para as ramificações de desenvolvimento e produção.
+
+Execute os seguintes comandos para obter alterações da branche master para o desenvolvimento:
+`git checkout development`
+git pull . master
+
+Execute também os seguintes comandos para obter alterações da branch master para a produção:
+
+git checkout production
+git pull . master
