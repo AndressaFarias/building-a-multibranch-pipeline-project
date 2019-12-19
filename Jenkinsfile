@@ -3,7 +3,7 @@ pipeline {
     agent{
         docker{
             image 'node:6-alpine'
-            args '-p 3001:3000 -p 5001:5000' 
+            args '-p 3001:3001 -p 5001:5001' 
             // Este parâmetro args torna o contêiner do Nó (temporariamente) acessível através das portas 3000 e 5000.
         }
     }
