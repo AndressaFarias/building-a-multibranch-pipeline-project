@@ -42,4 +42,40 @@ Ao criar um prjeto de Pipeline no Blue Ocean, o Que realmente ocorre é que o Je
     - For macOS - /home/Documents/GitHub/building-a-multibranch-pipeline-project
     - For Linux - /home/GitHub/building-a-multibranch-pipeline-project
     - For Windows - /home/Documents/GitHub/building-a-multibranch-pipeline-project
+ :x: URL do repositório não é reconhecida e credenciais solicitada tb não são reconhecidas
+
+ ### Crie seu Pipeline inicial como um arquivo Jenkins com estágios de construção e teste
+O Pipeline será criado como um Jenkinsfile, que será _comitado_ na _branch_ master do repositório Git clonado localmente (building-a-multibranch-pipeline-project)
+
+Primeiro, crie um Pipeline inicial para baixar uma imagem do Node Docker e execute-a como um contêiner do Docker que criará seu aplicativo Node.js. e React simple. Adicione também um estágio "Build" ao Pipeline para começar a orquestrar todo o processo e um stage "Test" para verificar se o aplicativo é renderizado satisfatoriamente.
+
+~~~groovy
+pipeline {
+    agent {
+        docker {
+            image 'node:6-alpine'
+            args '-p 3000:3000 -p 5000:5000' 
+        }
+    }
+    environment {
+        CI = 'true'
+    }
+    stages {
+        stage('Build') {
+            steps {
+                sh 'npm install'
+            }
+        }
+        stage('Test') {
+            steps {
+                sh './jenkins/scripts/test.sh'
+            }
+        }
+    }
+}
+~~~
+
+- Salve o Jenkinsfile editado e o comite no repositório Git local de construção do projeto `building-multibranch-pipeline-project`. Por exemplo. No diretório building-a-multibranch-pipeline-project, execute os comandos:
+`
+
 
