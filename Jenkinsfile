@@ -1,7 +1,9 @@
 pipeline {
-    //agent any
+    
     agent{
+
         docker{
+
             image 'node:6-alpine'
             args '-p 3001:3001 -p 5001:5001' 
             // Este parâmetro args torna o contêiner do Nó (temporariamente) acessível através das portas 3000 e 5000.
@@ -9,32 +11,27 @@ pipeline {
     }
 
     environment {
-    CI = 'true'
-  }
-
-  }
-  stages {
-    stage('Build') {
-      steps {
-        sh 'echo "Hello world!"'
-        sh 'npm install'
-      }
+        CI = 'true'
     }
 
     stages {
+        
         stage('Build') {
+
             steps {
+
                 sh 'echo "Hello world!"'
                 sh 'npm install'
             }
         }
 
         stage('Test') {
+
             steps {
                 sh './jenkins/scripts/test.sh'
             }
-        }
 
+        }
 
         stage('Deliver for development') {
             when {
@@ -46,6 +43,7 @@ pipeline {
                 sh './jenkins/scripts/kill.sh'
             }
         }
+
         stage('Deploy for production') {
             when {
                 branch 'production'
@@ -62,5 +60,3 @@ pipeline {
 // do seu repositório clonado e são abordados nas seções subseqüentes deste tutorial
 
   }
-  
-}

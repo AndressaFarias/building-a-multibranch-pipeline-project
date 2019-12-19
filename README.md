@@ -126,4 +126,11 @@ stage('Deliver for development') {
 
 > Para obter mais explicações sobre o _stage input message_ Leitur Recomendada = Add a final deliver stage to your Pipeline - https://jenkins.io/doc/tutorials/build-a-node-js-and-react-app-with-npm/#add-a-final-deliver-stage-to-your-pipeline
 
-- Salve as edições feita no Jenkinsfile e commite.
+- Salve as edições feita no Jenkinsfile e comite.
+
+- Volte novamente a interface do Jenkins Blue Ocean.
+
+- Clique em _Branches_
+
+- Cliquei no icone de execução (play) na branch _master_e clique no link OPEN que aparece no lado inferior esquerdo na página.
+
