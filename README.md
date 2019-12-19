@@ -54,7 +54,7 @@ pipeline {
     agent {
         docker {
             image 'node:6-alpine'
-            args '-p 3000:3000 -p 5000:5000' 
+            args '-p 3000:3000 -p 5000:5000' //alterada as portas para 3001 e 5001
         }
     }
     environment {
@@ -76,6 +76,54 @@ pipeline {
 ~~~
 
 - Salve o Jenkinsfile editado e o comite no repositório Git local de construção do projeto `building-multibranch-pipeline-project`. Por exemplo. No diretório building-a-multibranch-pipeline-project, execute os comandos:
-`
+    `git stage .`
+    e
+    `git commit -m "Add initial Jenkinsfile with 'Test' stage"`
 
+- Volte para Jenkins novamente, faça login novamente se necessário e verifique se acessou a interface Blue Ocean de Jenkins
 
+- Clique em Brnchs no canto superior direito para acessar a lista das branchs do projeto.
+
+- Clique no ícone de execução (play) da branch master e clique rapidamente no link OPEN que aparece brevemente no canto inferior direito para ver Jenkins construindo a ramificação principal com o Jenkinsfile alterado.
+
+### Adicionando stages de entrega e deploy no Pipeline
+
+Em seguida, adicione os estágios "Deliver for Development" e "DEploy for production" ao Pipeline, que o Jenkins executará seletivamente com base na ramificação da qual o Jenkins está construindo.
+
+isso levai ao conceito de _Pipeline-as-Code_ a um novo nível, no qual um único arquivo Jenkins descreve os processos completos de criação, teste, entrega e deploy do projeto para cada branch do repositório.
+
+> Leituras indicadas
+> Pipeline - https://jenkins.io/doc/book/pipeline/#pipeline-1
+> Using a Jenkinsfile - https://jenkins.io/doc/book/pipeline/jenkinsfile/
+
+- Volte ao Jenkinsfile
+- Copie e cole o código abaixo logo após o _stage_ de teste.
+
+~~~groovy
+stage('Deliver for development') {
+            when {
+                branch 'development'
+            }
+            steps {
+                sh './jenkins/scripts/deliver-for-development.sh'
+                input message: 'Finished using the web site? (Click "Proceed" to continue)'
+                sh './jenkins/scripts/kill.sh'
+            }
+        }
+        stage('Deploy for production') {
+            when {
+                branch 'production'
+            }
+            steps {
+                sh './jenkins/scripts/deploy-for-production.sh'
+                input message: 'Finished using the web site? (Click "Proceed" to continue)'
+                sh './jenkins/scripts/kill.sh'
+            }
+        }
+~~~
+
+:arrow_right: As diretivas **when** juntamente com sua condições de _branch_, determinam sem o _stage_ contido na diretiva _when_ seja executado. Se um valor da condição _branch_ corresponde ao nome do _branch_ que o Jenkins está executando então o _stage_ é executado.
+
+> Para obter mais explicações sobre o _stage input message_ Leitur Recomendada = Add a final deliver stage to your Pipeline - https://jenkins.io/doc/tutorials/build-a-node-js-and-react-app-with-npm/#add-a-final-deliver-stage-to-your-pipeline
+
+- Salve as edições feita no Jenkinsfile e commite.
