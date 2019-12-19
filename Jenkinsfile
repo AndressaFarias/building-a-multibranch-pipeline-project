@@ -9,7 +9,16 @@ pipeline {
     }
 
     environment {
-        CI = 'true'
+    CI = 'true'
+  }
+
+  }
+  stages {
+    stage('Build') {
+      steps {
+        sh 'echo "Hello world!"'
+        sh 'npm install'
+      }
     }
 
     stages {
@@ -48,8 +57,10 @@ pipeline {
             }
         }
     }
-}
 
 // O significado disso é explicado nos arquivos `jenkins/scripts/deliver-for-deployment.sh` e `jenkins/scripts/deploy-for-production.sh` 
 // do seu repositório clonado e são abordados nas seções subseqüentes deste tutorial
 
+  }
+  
+}
